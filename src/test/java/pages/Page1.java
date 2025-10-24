@@ -16,52 +16,52 @@ public class Page1 {
     private final String noRadio = "#no";
     private final String acceptCheckbox = "#accept";
     private final String submitButton = "#submit";
-    private final String lienPage2 = "#lien";
-    private final String resultat = "#resultat";
+    private final String linkPage2 = "#link";
+    private final String result = "#result";
 
     public Page1(Page page) {
         this.page = page;
     }
 
-    public void naviguer(String baseUrl) {
+    public void nav(String baseUrl) {
         String fileUrl = "file://" + Paths.get(baseUrl, "page1.html").toAbsolutePath();
         this.page.navigate(fileUrl);
 
     }
 
-    public void remplirAcronym(String acronym) {
+    public void fillAcronym(String acronym) {
         this.page.fill("#acronym", acronym);
     }
 
-    public void selectionnerLand(String land) {
+    public void selectLand(String land) {
         this.page.selectOption("#land", land);
     }
 
-    public void cocherYes() {
+    public void checkYes() {
         this.page.check("#yes");
     }
 
-    public void cocherNo() {
+    public void checkNo() {
         this.page.check("#no");
     }
 
-    public void cocherAccept() {
+    public void checkAccept() {
         this.page.check("#accept");
     }
 
-    public void cliquerEnvoyer() {
+    public void clickSubmit() {
         this.page.click("#submit");
     }
 
-    public void cliquerLienPage2() {
-        this.page.click("#lien");
+    public void clickLinkPage2() {
+        this.page.click("#link");
     }
 
-    public String obtenirResultat() {
-        return this.page.textContent("#resultat");
+    public String getResult() {
+        return this.page.textContent("#result");
     }
 
-    public boolean estSurPage() {
+    public boolean isOnPage() {
         return this.page.title().equals("Page 1");
     }
 }

@@ -13,8 +13,8 @@ public class Page2 {
     private final Page page;
 
     // Locators
-    private final String retourLien = "#retour";
-    private final String titre = "h1";
+    private final String returnLink = "#return";
+    private final String title = "h1";
 
     /**
      * Constructeur
@@ -28,7 +28,7 @@ public class Page2 {
      * Naviguer vers la page 2
      * @param baseUrl URL de base de l'application
      */
-    public void naviguer(String baseUrl) {
+    public void nav(String baseUrl) {
         String fileUrl = "file://" + Paths.get(baseUrl, "page2.html").toAbsolutePath();
         this.page.navigate(fileUrl);
 
@@ -37,23 +37,23 @@ public class Page2 {
     /**
      * Cliquer sur le lien Retour
      */
-    public void cliquerRetour() {
-        page.click(retourLien);
+    public void clickBack() {
+        page.click(returnLink);
     }
 
     /**
      * Obtenir le titre de la page
      * @return Texte du titre H1
      */
-    public String obtenirTitre() {
-        return page.textContent(titre).trim();
+    public String getTitle() {
+        return page.textContent(title).trim();
     }
 
     /**
      * Vérifier si on est sur la page 2
      * @return true si sur la page 2
      */
-    public boolean estSurPage() {
+    public boolean isOnPage() {
         return page.title().contains("Page 2");
     }
 }

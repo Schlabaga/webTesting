@@ -1,8 +1,3 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
-
 package tests;
 
 import com.microsoft.playwright.Browser;
@@ -58,70 +53,70 @@ public class WebTest {
     }
 
     @Test
-    @DisplayName("Test du formulaire - Soumission avec nom")
-    void testSoumissionFormulaire() {
-        this.indexPage.naviguer("src/main/webapp");
-        Assertions.assertTrue(this.indexPage.estSurPage(), "Devrait être sur la page index");
-        this.indexPage.remplirAcronym("FR");
-        this.indexPage.cliquerEnvoyer();
-        String resultat = this.indexPage.obtenirResultat();
-        Assertions.assertEquals("Form successfully validated!", resultat, "Le résultat devrait afficher la validation du formulaire");
+    @DisplayName("Form Test - Submitting with name")
+    void testFormSubmit() {
+        this.indexPage.nav("src/main/webapp");
+        Assertions.assertTrue(this.indexPage.isOnPage(), "Should be on the index page");
+        this.indexPage.fillAcronym("FR");
+        this.indexPage.clickSubmit();
+        String resultat = this.indexPage.getResult();
+        Assertions.assertEquals("Form successfully validated!", resultat, "Le result should indicate successful form validation");
     }
 
     @Test
-    @DisplayName("Test de la liste déroulante - Sélection pays")
-    void testSelectionPays() {
-        this.indexPage.naviguer("src/main/webapp");
-        this.indexPage.selectionnerLand("FR");
+    @DisplayName("Droplist test - land selection")
+    void testLandSelection() {
+        this.indexPage.nav("src/main/webapp");
+        this.indexPage.selectLand("FR");
         String valeur = this.page.evaluate("document.getElementById('land').value").toString();
-        Assertions.assertEquals("FR", valeur, "Le pays FR devrait être sélectionné");
+        Assertions.assertEquals("FR", valeur, "The selected land should be FR");
     }
 
     @Test
-    @DisplayName("Test des boutons radio - Sélection Oui")
-    void testBoutonRadio() {
-        this.indexPage.naviguer("src/main/webapp");
-        this.indexPage.cocherYes();
-        Assertions.assertTrue(this.page.isChecked("#yes"), "Le bouton Yes devrait être coché");
-        Assertions.assertFalse(this.page.isChecked("#no"), "Le bouton No ne devrait pas être coché");
+    @DisplayName("Test radio buttons - Yes selection")
+    void testRadioButton() {
+        this.indexPage.nav("src/main/webapp");
+        this.indexPage.checkYes();
+        Assertions.assertTrue(this.page.isChecked("#yes"), "The Yes button should be checked");
+        Assertions.assertFalse(this.page.isChecked("#no"), "The No button should not be checked");
     }
 
     @Test
-    @DisplayName("Test de la case à cocher - Acceptation")
-    void testCaseACocher() {
-        this.indexPage.naviguer("src/main/webapp");
-        this.indexPage.cocherAccept();
-        Assertions.assertTrue(this.page.isChecked("#accept"), "La case accept devrait être cochée");
+    @DisplayName("Checkbox test - Acceptation")
+    void testCheckbox() {
+        this.indexPage.nav("src/main/webapp");
+        this.indexPage.checkAccept();
+        Assertions.assertTrue(this.page.isChecked("#accept"), "The Accept checkbox should be checked");
     }
 
     @Test
-    @DisplayName("Test de navigation - Aller à page 2")
-    void testNavigationVersPage2() {
-        this.indexPage.naviguer("src/main/webapp");
-        this.indexPage.cliquerLienPage2();
-        Assertions.assertTrue(this.page2.estSurPage(), "Devrait être sur la page 2");
-        Assertions.assertEquals("Page 2", this.page2.obtenirTitre(), "Le titre devrait être Page 2");
+    @DisplayName("Navigation test - Go to Page 2")
+    void testNavigationToPage2() {
+        this.indexPage.nav("src/main/webapp");
+        this.indexPage.clickLinkPage2();
+        Assertions.assertTrue(this.page2.isOnPage(), "Should be on Page 2");
+        Assertions.assertEquals("Page 2", this.page2.getTitle(), "The title should be on Page 2");
     }
 
     @Test
-    @DisplayName("Test de navigation - Retour à l'index")
-    void testNavigationRetourIndex() {
-        this.page2.naviguer("src/main/webapp");
-        Assertions.assertTrue(this.page2.estSurPage(), "Devrait être sur la page 2");
-        this.page2.cliquerRetour();
-        Assertions.assertTrue(this.indexPage.estSurPage(), "Devrait être de retour sur la page index");
+    @DisplayName("Navigation test - get back to index page")
+    void testNavigationBackToIndex() {
+        this.page2.nav("src/main/webapp");
+        Assertions.assertTrue(this.page2.isOnPage(), "Should be on Page 2");
+        this.page2.clickBack();
+        Assertions.assertTrue(this.indexPage.isOnPage(), "Should be back on the index page");
     }
 
     @Test
-    @DisplayName("Test complet du formulaire - Tous les champs")
-    void testFormulaireComplet() {
-        this.indexPage.naviguer("src/main/webapp");
-        this.indexPage.remplirAcronym("BE");
-        this.indexPage.selectionnerLand("BE");
-        this.indexPage.cocherYes();
-        this.indexPage.cocherAccept();
-        this.indexPage.cliquerEnvoyer();
-        Assertions.assertEquals("Form successfully validated!", this.indexPage.obtenirResultat());
+    @DisplayName("Total form test - All the fields filled")
+    void testFullForm() {
+        this.indexPage.nav("src/main/webapp");
+        this.indexPage.fillAcronym("BE");
+        this.indexPage.selectLand("BE");
+        this.indexPage.checkYes();
+        this.indexPage.checkAccept();
+        this.indexPage.clickSubmit();
+        Assertions.assertEquals("Form successfully validated!", this.indexPage.getResult());
         Assertions.assertEquals("BE", this.page.evaluate("document.getElementById('land').value").toString());
         Assertions.assertTrue(this.page.isChecked("#yes"));
         Assertions.assertTrue(this.page.isChecked("#accept"));

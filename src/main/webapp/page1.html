@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="de">
 <head>
     <title>Page 1</title>
     <meta charset="UTF-8">
 </head>
 <body>
-    <h1>Formulaire</h1>
+    <h1>Formular</h1>
 
     <form id="form">
         <label for="acronym">Bitte ein Land mit den Akronymen auswählen:</label>
@@ -38,9 +38,9 @@
     </form>
 
     <br>
-    <a href="page2.html" hidden="hidden" id="lien">Weiter zu Seite 2</a>
+    <a href="page2.html" hidden="hidden" id="link">Weiter zu Seite 2</a>
 
-    <p id="resultat"></p>
+    <p id="result"></p>
 
     <script>
         document.getElementById('form').addEventListener('submit', function(e) {
@@ -88,10 +88,10 @@
             // Check terms acceptance
             if (!isAccepted) {
                 console.log("You must accept the terms and conditions before submitting.");
-                let link= document.getElementById('lien').hidden=true;
+                let link= document.getElementById('link').hidden=true;
 
             } else {
-                let link= document.getElementById('lien').hidden=false;
+                let link= document.getElementById('link').hidden=false;
                 console.log("Terms and conditions accepted.");
             }
 
@@ -104,7 +104,7 @@
             ) {
                 stillAnError = false;
                 console.log("Form successfully validated!");
-                document.getElementById('resultat').textContent = 'Form successfully validated!';
+                document.getElementById('result').textContent = 'Form successfully validated!';
 
             }
 
