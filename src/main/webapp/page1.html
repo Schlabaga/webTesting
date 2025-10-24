@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <title>Page 1</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <h1>Formulaire</h1>
+
+    <form id="form">
+        <label for="acronym">Bitte ein Land mit den Akronymen auswählen:</label>
+        <input type="text" id="acronym" name="acronym">
+
+        <br><br>
+
+        <label for="land">Land:</label>
+        <select id="land" name="land">
+            <option value="">Wählen</option>
+            <option value="FR">Frankreich (FR)</option>
+            <option value="BE">Belgium (BE)</option>
+            <option value="DK">Danemark (DK)</option>
+            <option value="US">United States (US)</option>
+        </select>
+        <br><br>
+
+        <label>Wohnen Sie in der EU?</label>
+        <input type="radio" id="yes" name="choice" value="yes">
+        <label for="yes">Ja</label>
+        <input type="radio" id="no" name="choice" value="no">
+        <label for="no">Nein</label>
+        <br><br>
+
+        <input type="checkbox" id="accept" name="accept">
+        <label for="accept">Ich akzeptiere die Nutzungsbedingungen</label>
+        <br><br>
+
+        <button type="submit" id="submit">Senden</button>
+    </form>
+
+    <br>
+    <a href="page2.html" hidden="hidden" id="lien">Weiter zu Seite 2</a>
+
+    <p id="resultat"></p>
+
+    <script>
+        document.getElementById('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            let stillAnError = true;
+
+            // Get all form values
+            let acronymInput = document.getElementById('acronym');
+            let landSelect = document.getElementById('land');
+            let yesRadio = document.getElementById('yes');
+            let noRadio = document.getElementById('no');
+            let acceptCheckbox = document.getElementById('accept');
+
+            let acronym = acronymInput.value.trim().toUpperCase();
+            let land = landSelect.value;
+            let isYes = yesRadio.checked;
+            let isNo = noRadio.checked;
+            let isAccepted = acceptCheckbox.checked;
+
+            let EUCountryList = ["BE", "FR", "DK"];
+
+            // Check if required fields are filled
+            if (acronym === "" || land === "") {
+                console.log("Please fill in all required fields.");
+            } else if (acronym !== land) {
+                console.log("The acronym does not match the selected country.");
+            } else {
+                console.log("Acronym and country match.");
+            }
+
+            // Check EU choice
+            let isEUCountry = EUCountryList.includes(acronym);
+
+            if (isYes && !isEUCountry) {
+                console.log("You indicated living in the EU, but the selected country is not part of the EU.");
+            } else if (isNo && isEUCountry) {
+                console.log("You indicated not living in the EU, but the selected country is part of the EU.");
+            } else if (!isYes && !isNo) {
+                console.log("Please indicate whether you live in the EU.");
+            } else {
+                console.log("EU choice matches the selected country.");
+            }
+
+            // Check terms acceptance
+            if (!isAccepted) {
+                console.log("You must accept the terms and conditions before submitting.");
+                let link= document.getElementById('lien').hidden=true;
+
+            } else {
+                let link= document.getElementById('lien').hidden=false;
+                console.log("Terms and conditions accepted.");
+            }
+
+            // Optional: final success message
+            if (
+                acronym !== "" &&
+                land !== "" &&
+                acronym === land &&
+                ((isYes && isEUCountry) || (isNo && !isEUCountry)) && isAccepted
+            ) {
+                stillAnError = false;
+                console.log("Form successfully validated!");
+                document.getElementById('resultat').textContent = 'Form successfully validated!';
+
+            }
+
+
+            // Coloring the page (red: not good, green: good)
+            if (stillAnError) {
+                document.body.style.backgroundColor = "red";
+            } else{
+                document.body.style.backgroundColor = "green";
+
+            }
+
+            
+
+        });
+    </script>
+</body>
+</html>
