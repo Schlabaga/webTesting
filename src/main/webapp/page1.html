@@ -1,124 +1,139 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <title>Page 1</title>
+    <title>Nutzungsbedingungen</title>
     <meta charset="UTF-8">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            border-bottom: 2px solid #4c8caf;
+            padding-bottom: 10px;
+        }
+        .terms-box {
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin: 20px 0;
+            background-color: #fafafa;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .terms-box h2 {
+            color: #555;
+            font-size: 1.2em;
+        }
+        .checkbox-container {
+            margin: 25px 0;
+            padding: 15px;
+            background-color: #e8f5e9;
+            border-radius: 5px;
+        }
+        .checkbox-container input[type="checkbox"] {
+            margin-right: 10px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        .checkbox-container label {
+            font-size: 1.1em;
+            color: #333;
+            cursor: pointer;
+        }
+        #nextLink {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: #cccccc;
+            color: #666666;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1.1em;
+            cursor: not-allowed;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+        #nextLink.enabled {
+            background-color: #4c8caf;
+            color: white;
+            cursor: pointer;
+            pointer-events: auto;
+        }
+        #nextLink.enabled:hover {
+            background-color: #3a6f8a;
+        }
+    </style>
 </head>
 <body>
-    <h1>Formular</h1>
+    <div class="container">
+        <h1>Nutzungsbedingungen</h1>
 
-    <form id="form">
-        <label for="acronym">Bitte ein Land mit den Akronymen auswählen:</label>
-        <input type="text" id="acronym" name="acronym">
+        <div class="terms-box">
+            <h2>Allgemeine Geschäftsbedingungen</h2>
+            <p><strong>§1 Geltungsbereich</strong></p>
+            <p>Diese Nutzungsbedingungen gelten für die Nutzung unserer Web-Anwendung.
+                Durch die Nutzung der Anwendung erklären Sie sich mit diesen Bedingungen einverstanden.</p>
 
-        <br><br>
+            <p><strong>§2 Datenschutz</strong></p>
+            <p>Wir verpflichten uns, Ihre personenbezogenen Daten gemäß den geltenden Datenschutzbestimmungen
+                zu verarbeiten und zu schützen.</p>
 
-        <label for="land">Land:</label>
-        <select id="land" name="land">
-            <option value="">Wählen</option>
-            <option value="FR">Frankreich (FR)</option>
-            <option value="BE">Belgium (BE)</option>
-            <option value="DK">Danemark (DK)</option>
-            <option value="US">United States (US)</option>
-        </select>
-        <br><br>
+            <p><strong>§3 Nutzungsrechte</strong></p>
+            <p>Die Nutzung der Anwendung ist nur für rechtmäßige Zwecke gestattet. Jede missbräuchliche Nutzung
+                ist untersagt.</p>
 
-        <label>Wohnen Sie in der EU?</label>
-        <input type="radio" id="yes" name="choice" value="yes">
-        <label for="yes">Ja</label>
-        <input type="radio" id="no" name="choice" value="no">
-        <label for="no">Nein</label>
-        <br><br>
+            <p><strong>§4 Haftungsausschluss</strong></p>
+            <p>Wir übernehmen keine Haftung für eventuelle Schäden, die durch die Nutzung der Anwendung
+                entstehen könnten.</p>
 
-        <input type="checkbox" id="accept" name="accept">
-        <label for="accept">Ich akzeptiere die Nutzungsbedingungen</label>
-        <br><br>
+            <p><strong>§5 Änderungen</strong></p>
+            <p>Wir behalten uns das Recht vor, diese Nutzungsbedingungen jederzeit zu ändern.</p>
+        </div>
 
-        <button type="submit" id="submit">Senden</button>
-    </form>
+        <div class="checkbox-container">
+            <input type="checkbox" id="acceptTerms" name="acceptTerms">
+            <label for="acceptTerms">Ich habe die Nutzungsbedingungen gelesen und akzeptiere sie</label>
+        </div>
 
-    <br>
-    <a href="page2.html" hidden="hidden" id="link">Weiter zu Seite 2</a>
-
-    <p id="result"></p>
+        <a href="page2.html" id="nextLink">Weiter zum Formular</a>
+    </div>
 
     <script>
-        document.getElementById('form').addEventListener('submit', function(e) {
-            e.preventDefault();
+        // Get references to the checkbox and link
+        const checkbox = document.getElementById('acceptTerms');
+        const link = document.getElementById('nextLink');
 
-            let stillAnError = true;
-
-            // Get all form values
-            let acronymInput = document.getElementById('acronym');
-            let landSelect = document.getElementById('land');
-            let yesRadio = document.getElementById('yes');
-            let noRadio = document.getElementById('no');
-            let acceptCheckbox = document.getElementById('accept');
-
-            let acronym = acronymInput.value.trim().toUpperCase();
-            let land = landSelect.value;
-            let isYes = yesRadio.checked;
-            let isNo = noRadio.checked;
-            let isAccepted = acceptCheckbox.checked;
-
-            let EUCountryList = ["BE", "FR", "DK"];
-
-            // Check if required fields are filled
-            if (acronym === "" || land === "") {
-                console.log("Please fill in all required fields.");
-            } else if (acronym !== land) {
-                console.log("The acronym does not match the selected country.");
+        // Add an event listener to the checkbox
+        checkbox.addEventListener('change', function() {
+            if (this.checked) {
+                // Enable the link if the checkbox is checked
+                link.classList.add('enabled');
+                console.log('Nutzungsbedingungen akzeptiert. Link aktiviert.');
             } else {
-                console.log("Acronym and country match.");
+                // Disable the link if the checkbox is unchecked
+                link.classList.remove('enabled');
+                console.log('Nutzungsbedingungen nicht akzeptiert. Link deaktiviert.');
             }
+        });
 
-            // Check EU choice
-            let isEUCountry = EUCountryList.includes(acronym);
-
-            if (isYes && !isEUCountry) {
-                console.log("You indicated living in the EU, but the selected country is not part of the EU.");
-            } else if (isNo && isEUCountry) {
-                console.log("You indicated not living in the EU, but the selected country is part of the EU.");
-            } else if (!isYes && !isNo) {
-                console.log("Please indicate whether you live in the EU.");
-            } else {
-                console.log("EU choice matches the selected country.");
+        // Prevent navigation if the link is clicked without accepting terms
+        link.addEventListener('click', function(e) {
+            if (!checkbox.checked) {
+                e.preventDefault();
+                alert('Bitte akzeptieren Sie die Nutzungsbedingungen, um fortzufahren.');
             }
-
-            // Check terms acceptance
-            if (!isAccepted) {
-                console.log("You must accept the terms and conditions before submitting.");
-                let link= document.getElementById('link').hidden=true;
-
-            } else {
-                let link= document.getElementById('link').hidden=false;
-                console.log("Terms and conditions accepted.");
-            }
-
-            // Optional: final success message
-            if (
-                acronym !== "" &&
-                land !== "" &&
-                acronym === land &&
-                ((isYes && isEUCountry) || (isNo && !isEUCountry)) && isAccepted
-            ) {
-                stillAnError = false;
-                console.log("Form successfully validated!");
-                document.getElementById('result').textContent = 'Form successfully validated!';
-
-            }
-
-
-            // Coloring the page (red: not good, green: good)
-            if (stillAnError) {
-                document.body.style.backgroundColor = "red";
-            } else{
-                document.body.style.backgroundColor = "green";
-
-            }
-
-            
-
         });
     </script>
 </body>
