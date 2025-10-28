@@ -1,12 +1,256 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <title>Page 2</title>
+    <title>Länderauswahl Formular</title>
     <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+            transition: background-color 0.5s ease;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            border-bottom: 2px solid #4c8caf;
+            padding-bottom: 10px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: bold;
+        }
+        input[type="text"], select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        input[type="text"]:focus, select:focus {
+            outline: none;
+            border-color: #2196F3;
+        }
+        .radio-group {
+            display: inline;
+            gap: 20px;
+        }
+        .radio-group label {
+            display: inline;
+            font-weight: normal;
+        }
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+        }
+        .checkbox-group label {
+            display: inline;
+            margin: 0;
+            font-weight: normal;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #4c8caf;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #357ab8;
+        }
+        #resultMessage {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 4px;
+            display: none;
+            font-weight: bold;
+            text-align: center;
+        }
+        #resultMessage.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+        #resultMessage.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+        .error-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 10px 0 0 0;
+        }
+        .error-list li {
+            margin: 5px 0;
+        }
+        .backLink {
+            display: inline-block;
+            margin-top: 20px;
+            color: #4c8caf;
+            text-decoration: none;
+        }
+        .backLink:hover {
+            text-decoration: underline;
+        }
+        body.success {
+            background-color: #a5d6a7;
+        }
+        body.error {
+            background-color: #ef9a9a;
+        }
+    </style>
 </head>
 <body>
-    <h1>Page 2</h1>
-    <p>Sie befinden sich auf der 2. Seite.</p>
-    <a href="page1.html" id="return">Rückkehr</a>
+    <div class="container">
+        <h1>Länderauswahl Formular</h1>
+
+        <form id="countryForm">
+            <div class="form-group">
+                <label for="acronym">Bitte ein Land mit den Akronymen auswählen (z.B. FR, BE, DK, US) :</label>
+                <input type="text" id="acronym" name="acronym" placeholder="Geben Sie dans Länderakronym ein" maxlength="2">
+            </div>
+
+            <div class="form-group">
+                <label for="country">Land auswählen:</label>
+                <select id="country" name="country">
+                    <option value="">--Bitte wählen--</option>
+                    <option value="FR">Frankreich (FR)</option>
+                    <option value="BE">Belgien (BE)</option>
+                    <option value="DK">Dänemark (DK)</option>
+                    <option value="US">Vereinigte Staaten (US)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Wohnen Sie in der EU?</label>
+                <div class="radio-group">
+                        <input type="radio" id="euYes" name="euResident" value="yes">
+                        <label for="euYes">Ja</label>
+                        <input type="radio" id="euNo" name="euResident" value="no">
+                        <label for="euNo">Nein</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="checkbox-group">
+                    <input type="checkbox" id="dataConsent" name="dataConsent">
+                    <label for="dataConsent">Ich stimme der Datenverarbeitung zu</label>
+                </div>
+            </div>
+
+            <button type="submit" id="submitButton">Formular absenden</button>
+        </form>
+
+        <div id="resultMessage"></div>
+
+        <a href="page1.html" class="backLink" id="backLink">Zurück zu den Nutzungsbedingungen</a>
+    </div>
+
+    <script>
+        // EU country list
+        const EU_Countries = ['FR', 'BE', 'DK'];
+
+        // Get the form elements
+        const form = document.getElementById('countryForm');
+        const acronymInput = document.getElementById('acronym');
+        const countrySelect = document.getElementById('country');
+        const euYesRadio = document.getElementById('euYes');
+        const euNoRadio = document.getElementById('euNo');
+        const dataConsentCheckbox = document.getElementById('dataConsent');
+        const resultMessage = document.getElementById('resultMessage');
+
+        // Convert the acronym to uppercase automatically
+        acronymInput.addEventListener('input', function() {
+            this.value = this.value.toUpperCase();
+        });
+
+        // Form submission handler
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Reset previous state
+            resultMessage.className = '';
+            resultMessage.style.display = 'none';
+            document.body.className = '';
+
+            // Get form values
+            const acronym = acronymInput.value.trim().toUpperCase();
+            const country = countrySelect.value;
+            const euResident = document.querySelector('input[name="euResident"]:checked');
+            const dataConsent = dataConsentCheckbox.checked;
+
+            // Validation
+            const errors = [];
+
+            // Check if all fields are filled
+            if (acronym === '') {
+                errors.push('Bitte geben Sie ein Länderakronym ein.');
+            }
+            if (country === '') {
+                errors.push('Bitte wählen Sie ein Land aus.');
+            }
+            if (!euResident) {
+                errors.push('Bitte geben Sie an, ob Sie in der EU wohnen.');
+            }
+            if (!dataConsent) {
+                errors.push('Sie müssen der Datenverarbeitung zustimmen.');
+            }
+
+            // Check if acronym matches selected country
+            if (euResident && acronym !== '') {
+                const isEuCountry = EU_Countries.includes(acronym);
+                const selectedYes = euResident.value === 'yes';
+
+                if (selectedYes && !isEuCountry) {
+                    errors.push('Sie haben angegeben, in der EU zu wohnen, aber das gewählte Land ist nicht Teil der EU.');
+                } else if (!selectedYes && isEuCountry) {
+                    errors.push('Sie haben angegeben, nicht in der EU zu wohnen, aber das gewählte Land ist Teil der EU.');
+                }
+            }
+
+            // Display results
+            if (errors.length > 0) {
+                resultMessage.className = 'error';
+                resultMessage.innerHTML = '<strong>Fehler bei der Validierung:</strong><ul class="error-list">' +
+                    errors.map(err => '<li> ' + err + '</li>').join('') +
+                    '</ul>';
+                document.body.className = 'error';
+                console.log('Formularvalidierung fehlgeschlagen:', errors);
+            } else {
+                resultMessage.className = 'success';
+                resultMessage.innerHTML = '<strong>Formular erfolgreich validiert!</strong><br>Alle Angaben sind korrekt.';
+                document.body.className = 'success';
+                console.log('Formular erfolgreich validiert.');
+            }
+
+            resultMessage.style.display = 'block';
+        });
+    </script>
 </body>
 </html>
