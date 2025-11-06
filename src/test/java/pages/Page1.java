@@ -9,7 +9,7 @@ import java.nio.file.Paths;
  * Represents elements and actions available for the first page
  *
  * @author Riderzzz-code + Schlabaga
- * @version 2.0
+ * @version 2.1
  */
 public class Page1 {
 
@@ -17,7 +17,7 @@ public class Page1 {
 
     // Locators for page elements
     private final String termsCheckbox = "#acceptTerms";
-    private final String termsLabel = "#termsLabel";
+    private final String termsLabel = "label[for='acceptTerms']";
     private final String nextLink = "#nextLink";
     private final String pageTitle = "h1";
 
@@ -43,6 +43,7 @@ public class Page1 {
      */
     public void acceptTerms() {
         this.page.check(termsCheckbox);
+        page.waitForTimeout(300); // Wait for javaScript to update the link
     }
 
     /**
@@ -50,6 +51,7 @@ public class Page1 {
      */
     public void declineTerms() {
         this.page.uncheck(termsCheckbox);
+        page.waitForTimeout(300); // Wait for JavaScript to update the link
     }
 
     /**
@@ -72,8 +74,8 @@ public class Page1 {
      * @return true if enabled, false otherwise
      */
     public boolean isNextLinkEnabled() {
-        String classAttribute = this.page.getAttribute(nextLink, "class");
-        return classAttribute != null && !classAttribute.contains("enabled");
+        String classValue = page.evaluate("document.querySelector('#nextLink').className").toString();
+        return classValue.contains("enabled");
     }
 
     /**
