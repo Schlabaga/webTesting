@@ -1,67 +1,126 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
-
 package pages;
 
 import com.microsoft.playwright.Page;
 import java.nio.file.Paths;
 
-public class Page1 {
-    private final Page page;
-    private final String acronymInput = "#acronym";
-    private final String landSelect = "#land";
-    private final String yesRadio = "#yes";
-    private final String noRadio = "#no";
-    private final String acceptCheckbox = "#accept";
-    private final String submitButton = "#submit";
-    private final String linkPage2 = "#link";
-    private final String result = "#result";
 
+/**
+ * Page Object pour la page page1.html
+ * Represents elements and actions available for the first page
+ *
+ * @author Riderzzz-code + Schlabaga
+ * @version 2.0
+ */
+public class Page1 {
+
+    private final Page page;
+
+    // Locators for page elements
+    private final String termsCheckbox = "#acceptTerms";
+    private final String termsLabel = "#termsLabel";
+    private final String nextLink = "#nextLink";
+    private final String pageTitle = "h1";
+
+    /**
+     * Constructor
+     * @param page Instance of Playwright Page
+     */
     public Page1(Page page) {
         this.page = page;
     }
 
+    /**
+     * Navigate to page1.html
+     * @param baseUrl Base URL of the application
+     */
     public void nav(String baseUrl) {
         String fileUrl = "file://" + Paths.get(baseUrl, "page1.html").toAbsolutePath();
         this.page.navigate(fileUrl);
-
     }
 
-    public void fillAcronym(String acronym) {
-        this.page.fill("#acronym", acronym);
+    /**
+     * Check the terms and conditions checkbox
+     */
+    public void acceptTerms() {
+        this.page.check(termsCheckbox);
     }
 
-    public void selectLand(String land) {
-        this.page.selectOption("#land", land);
+    /**
+     * Uncheck the terms and conditions checkbox
+     */
+    public void declineTerms() {
+        this.page.uncheck(termsCheckbox);
     }
 
-    public void checkYes() {
-        this.page.check("#yes");
+    /**
+     * Check if the terms checkbox is checked
+     * @return true if checked, false otherwise
+     */
+    public boolean isTermsAccepted() {
+        return this.page.isChecked(termsCheckbox);
     }
 
-    public void checkNo() {
-        this.page.check("#no");
+    /**
+     * Click the Next link to navigate to page2.html
+     */
+    public void clickNextLink() {
+        this.page.click(nextLink);
     }
 
-    public void checkAccept() {
-        this.page.check("#accept");
+    /**
+     * Check if the next link is enabled
+     * @return true if enabled, false otherwise
+     */
+    public boolean isNextLinkEnabled() {
+        String classAttribute = this.page.getAttribute(nextLink, "class");
+        return classAttribute != null && !classAttribute.contains("enabled");
     }
 
-    public void clickSubmit() {
-        this.page.click("#submit");
+    /**
+     * Get page title text
+     * @return Title text from h1 element
+     */
+    public String getPageTitle() {
+        return this.page.textContent(pageTitle).trim();
     }
 
-    public void clickLinkPage2() {
-        this.page.click("#link");
+    /**
+     * Get the label text for terms checkbox
+     * @return Label text
+     */
+    public String getTermsLabelText() {
+        return page.textContent(termsLabel).trim();
     }
 
-    public String getResult() {
-        return this.page.textContent("#result");
-    }
-
+    /**
+     * Verify if we are on page 1
+     * @return true if on page 1, false otherwise
+     */
     public boolean isOnPage() {
-        return this.page.title().equals("Page 1");
+        return page.title().equals("Nutzungsbedingungen");
+    }
+
+    /**
+     * Get the current page URL
+     * @return Current URL
+     */
+    public String getCurrentUrl() {
+        return page.url();
+    }
+
+    /**
+     * Check if checkbox element is visible
+     * @return true if visible, false otherwise
+     */
+    public boolean isCheckboxVisible() {
+        return page.isVisible(termsCheckbox);
+    }
+
+    /**
+     * Check if next link element is visible
+     * @return true if visible, false otherwise
+     */
+    public boolean isNextLinkVisible() {
+        return page.isVisible(nextLink);
     }
 }
