@@ -11,9 +11,11 @@ import static org.junit.jupiter.api.Assertions.*;
  * Tests the form validation, input fields, and navigation
  *
  * @author Schlabaga + Riderzzz-code
- * @version 2.0
+ * @version 2.1
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@TestClassOrder(ClassOrderer.OrderAnnotation.class)
+@Order(2)
 public class Page2Test {
 
     private static Playwright playwright;
@@ -28,7 +30,7 @@ public class Page2Test {
     static void setupClass() {
         playwright = Playwright.create();
         browser = playwright.chromium().launch(
-                new BrowserType.LaunchOptions().setHeadless(false).setSlowMo(100)
+                new BrowserType.LaunchOptions().setHeadless(false).setSlowMo(50)
         );
     }
 
@@ -321,7 +323,7 @@ public class Page2Test {
         // When
         page2.fillAcronym("FR");
         page2.selectCountry("BE");
-        page2.selectEuYes();
+        page2.selectEuYes(); // Both FR and BE are in EU, so this is valid
         page2.checkDataConsent();
         page2.clickSubmit();
 
@@ -537,6 +539,7 @@ public class Page2Test {
 
         // Second submission - change to invalid
         page2.fillAcronym("US");
+        page2.selectCountry("US");
         page2.selectEuYes(); // Should be No for US
         page2.clickSubmit();
         page.waitForTimeout(500);

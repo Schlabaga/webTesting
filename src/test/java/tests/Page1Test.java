@@ -11,9 +11,11 @@ import static org.junit.jupiter.api.Assertions.*;
  * Tests the functionality of checkbox and link enabling/disabling
  *
  * @author Riderzzz-code
- * @version 1.0
+ * @version 1.1
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@TestClassOrder(ClassOrderer.OrderAnnotation.class)
+@Order(1)
 public class Page1Test {
 
     private static Playwright playwright;
@@ -28,7 +30,7 @@ public class Page1Test {
     static void setupClass() {
         playwright = Playwright.create();
         browser = playwright.chromium().launch(
-                new BrowserType.LaunchOptions().setHeadless(false)
+                new BrowserType.LaunchOptions().setHeadless(false).setSlowMo(50)
         );
     }
 
@@ -227,29 +229,22 @@ public class Page1Test {
      * Scenario: Attempt navigation without accepting terms
      *   Given I am on the terms and conditions page
      *   And I have not accepted the terms
-     *   When I try to click the next link
-     *   Then I should remain on page 1
+     *   When I verify the link state
+     *   Then the link should be disabled
      */
     @Test
     @Order(8)
-    @DisplayName("Test 8: Cannot navigate to page 2 without accepting terms")
-    void testCannotNavigateWithoutAccepting() {
+    @DisplayName("Test 8: Link is disabled without accepting terms")
+    void testLinkDisabledWithoutAccepting() {
         // Given
         page1.nav(BASE_URL);
         assertFalse(page1.isTermsAccepted(), "Terms should not be accepted");
-        assertFalse(page1.isNextLinkEnabled(), "Link should be disabled");
-
-        // When - Try to click the disabled link
-        String urlBefore = page1.getCurrentUrl();
-
-        // Note: The link has pointer-events: none, so clicking won't work
-        // We verify the link is disabled rather than testing the click
 
         // Then
         assertFalse(page1.isNextLinkEnabled(),
-                "Link should still be disabled");
+                "Link should be disabled");
         assertTrue(page1.isOnPage(),
-                "Should still be on page 1");
+                "Should be on page 1");
     }
 
     /**
