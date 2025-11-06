@@ -224,6 +224,11 @@
             }
 
             // Check if acronym matches selected country
+            if (acronym !== '' && country !== '' && acronym !== country) {
+                errors.push('Das eingegebene Länderakronym stimmt nicht mit dem ausgewählten Land überein.');
+            }
+
+            // Check EU residency consistency
             if (euResident && acronym !== '') {
                 const isEuCountry = EU_Countries.includes(acronym);
                 const selectedYes = euResident.value === 'yes';
