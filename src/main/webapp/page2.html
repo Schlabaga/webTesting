@@ -132,7 +132,7 @@
 
         <form id="countryForm">
             <div class="form-group">
-                <label for="acronym">Bitte ein Land mit den Akronymen auswählen (z.B. FR, BE, DK, US) :</label>
+                <label for="acronym">Bitte ein Land mit den Akronymen auswählen (z.B. FR, BE, DK, DE, US) :</label>
                 <input type="text" id="acronym" name="acronym" placeholder="Geben Sie dans Länderakronym ein" maxlength="2">
             </div>
 
@@ -143,6 +143,7 @@
                     <option value="FR">Frankreich (FR)</option>
                     <option value="BE">Belgien (BE)</option>
                     <option value="DK">Dänemark (DK)</option>
+                    <option value="DE">Deutschland (DE)</option>
                     <option value="US">Vereinigte Staaten (US)</option>
                 </select>
             </div>
@@ -174,7 +175,7 @@
 
     <script>
         // EU country list
-        const EU_Countries = ['FR', 'BE', 'DK'];
+        const EU_Countries = ['FR', 'BE', 'DK', 'DE'];
 
         // Get the form elements
         const form = document.getElementById('countryForm');
